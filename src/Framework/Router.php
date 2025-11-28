@@ -75,4 +75,9 @@ class Router
     {
         $this->middlewares[] = $middleware;
     }
+    public function addRouteMiddleware(string $middleware)
+    {
+        $lastRouteKey = array_key_last($this->routes);
+        $this->routes[$lastRouteKey]['middlewares'][] = $middleware;
+    }
 }

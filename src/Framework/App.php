@@ -41,4 +41,8 @@ class App
    {
       $this->router->addMiddleware($middleware);
    }
+   public function add(string $middlewae)
+   {
+      $this->router->addRouteMiddleware($middlewae);
+   }
 }
