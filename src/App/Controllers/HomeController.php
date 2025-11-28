@@ -9,11 +9,16 @@ use App\Config\Paths;
 
 class HomeController
 {
-
-    public function __construct(private TemplateEngine $view) {}
+    private TemplateEngine $view;
+    public function __construct()
+    {
+        $this->view = new TemplateEngine(Paths::VIEW);
+    }
     public function home()
     {
 
-        echo  $this->view->render("/index.php");
+        echo  $this->view->render("index.php", [
+            'title' => 'Home page'
+        ]);
     }
 }

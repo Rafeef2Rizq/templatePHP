@@ -9,9 +9,15 @@ use App\Config\Paths;
 
 class AboutController
 {
-    public function __construct(private TemplateEngine $view) {}
+    private TemplateEngine $view;
+    public function __Construct()
+    {
+        $this->view = new TemplateEngine(Paths::VIEW);
+    }
     public function about()
     {
-        echo $this->view->render('about.php');
+        $this->view->render('about.php', [
+            'title' => 'About page'
+        ]);
     }
 }

@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace Framework;
 
-use Framework\Router;
+use Framework\{Router, Container};
 
 class App
 {
    private Router $router;
    private Container $container;
-   public function  __construct(string $containerDefintionsPath = null)
+
+   public function __construct(?string $containerDefinitionsPath = null)
    {
       $this->router = new Router();
       $this->container = new Container();
-      if ($containerDefintionsPath) {
-         $containerDefintionsPath = include $containerDefintionsPath;
-         $this->container->adDefinitions($containerDefintionsPath);
+
+      if ($containerDefinitionsPath) {
+         $containerDefinitions = include $containerDefinitionsPath;
+         $this->container->addDefinitions($containerDefinitions);
       }
    }
    public function run()
@@ -27,7 +29,13 @@ class App
    }
    public function get(string $path, array $controller)
    {
-      $this->router->add('get', $path, $controller);
+      $this->router->add('GET', $path, $controller);
+      return $this;
+   }
+   public function post(string $path, array $controller)
+   {
+      $this->router->add('POST', $path, $controller);
+      return $this;
    }
    public function addMiddleware(string $middleware)
    {
