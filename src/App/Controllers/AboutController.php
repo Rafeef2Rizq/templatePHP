@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Services\TransactionService;
 use Framework\TemplateEngine;
 use App\Config\Paths;
 
 class AboutController
 {
-    private TemplateEngine $view;
-    public function __Construct()
-    {
-        $this->view = new TemplateEngine(Paths::VIEW);
+
+    public function __construct(
+        private TemplateEngine $view,
+        private TransactionService $transactionService
+    ) {
+
     }
     public function about()
     {
-        $this->view->render('about.php', [
-            'title' => 'About page'
-        ]);
+        echo $this->view->render('about.php');
     }
 }

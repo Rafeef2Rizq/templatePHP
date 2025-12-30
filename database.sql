@@ -10,16 +10,30 @@ updated_at datetime not null default current_timestamp(),
 primary key(id),
 unique key(email)
 );
+CREATE TABLE IF NOT EXISTS budgets(
+   id bigint(20) unsigned not null auto_increment,
+   title varchar(255) not null,
+   total_amount decimal(10,2) not null,
+   start_date datetime ,
+   end_date datetime ,
+   user_id bigint(20) unsigned not null,
+   created_at datetime not null default current_timestamp(),
+   updated_at datetime not null default current_timestamp(),
+   primary key(id),
+   foreign key(user_id) references users(id) on delete cascade
+);
 CREATE TABLE IF NOT EXISTS transactions(
    id bigint(20) unsigned not null auto_increment,
    description varchar(255) not null,
    amount decimal(10,2) not null,
    date datetime not null,
    user_id bigint(20) unsigned not null,
+   budget_id bigint(20) unsigned not null,
    created_at datetime not null default current_timestamp(),
    updated_at datetime not null default current_timestamp(),
    primary key(id),
-   foreign key(user_id) references users(id) on delete cascade 
+   foreign key(user_id) references users(id) on delete cascade,
+   foreign key(budget_id) references budgets(id) on delete cascade
 );
 CREATE TABLE IF NOT EXISTS receipts(
     id bigint(20) unsigned not null auto_increment,
@@ -29,4 +43,18 @@ CREATE TABLE IF NOT EXISTS receipts(
     transaction_id bigint(20) unsigned not null,
     primary key(id),
     foreign key(transaction_id) references transactions(id) on delete cascade
+);
+CREATE TABLE IF NOT EXISTS categories(
+    id bigint(20) unsigned not null auto_increment,
+    name varchar(255) not null,
+    user_id bigint(20) unsigned not null,
+    primary key(id),
+    foreign key(user_id) references users(id) on delete cascade
+);
+CREATE TABLE IF NOT EXISTS transaction_categories(
+    transaction_id bigint(20) unsigned not null,
+    category_id bigint(20) unsigned not null,
+    primary key(transaction_id, category_id),
+    foreign key(transaction_id) references transactions(id) on delete cascade,
+    foreign key(category_id) references categories(id) on delete cascade
 );

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Config;
 
-use App\Controllers\{HomeController, AboutController, AuthController, ErrorController, ReceiptController, TransactionController};
+use App\Controllers\{HomeController, AboutController, AuthController, BudgetController, ErrorController, ReceiptController, TransactionController};
 use App\Middleware\AuthRequiredMiddleware;
 use App\Middleware\GuestOnlyMiddleware;
 use Framework\App;
@@ -13,6 +13,8 @@ use Framework\App;
 function registerRoutes(App $app)
 {
     $app->get('/', [HomeController::class, 'home'])->add(AuthRequiredMiddleware::class);
+    $app->get('/transactions', [TransactionController::class, 'transactions'])->add(AuthRequiredMiddleware::class);
+
     $app->get('/about', [AboutController::class, 'about']);
     $app->get('/register', [AuthController::class, 'registerView'])->add(GuestOnlyMiddleware::class);
     $app->post('/register', [AuthController::class, 'register'])->add(GuestOnlyMiddleware::class);
@@ -34,7 +36,11 @@ function registerRoutes(App $app)
 
     $app->delete('/transaction/{transaction}/receipt/{receipt}', [ReceiptController::class, 'delete'])->add(AuthRequiredMiddleware::class);
     $app->setErrorHandler([ErrorController::class, 'notFound']);
-
-
+    $app->get('/budget', [BudgetController::class, 'budgetView'])->add(AuthRequiredMiddleware::class);
+    $app->get('/budget/create', [BudgetController::class, 'createView'])->add(AuthRequiredMiddleware::class);
+    $app->post('/budget/create', [BudgetController::class, 'create'])->add(AuthRequiredMiddleware::class);
+    $app->delete('/budget/{budget}', [BudgetController::class, 'delete'])->add(AuthRequiredMiddleware::class);
+    $app->get('/budget/{budget}', [BudgetController::class, 'editView'])->add(AuthRequiredMiddleware::class);
+    $app->post('/budget/{budget}', [BudgetController::class, 'edit'])->add(AuthRequiredMiddleware::class);
 
 }

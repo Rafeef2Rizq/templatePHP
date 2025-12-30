@@ -21,9 +21,9 @@ class ValidatorServices
         $this->validator->add('in', new InRule());
         $this->validator->add('url', new URLRule());
         $this->validator->add('match', new MatchRule());
-        $this->validator->add('lengthMax',new LengthMaxRule());
-        $this->validator->add('numeric' , new NumericRule());
-        $this->validator->add('dateFormat',new DateFormatRule() );
+        $this->validator->add('lengthMax', new LengthMaxRule());
+        $this->validator->add('numeric', new NumericRule());
+        $this->validator->add('dateFormat', new DateFormatRule());
     }
     public function validateRegister(array $formData)
     {
@@ -44,11 +44,22 @@ class ValidatorServices
             'password' => ['required']
         ]);
     }
-    public function validateTransaction(array $formData){
-    $this->validator->validate($formData,[
-        'description'=>['required','lengthMax:255'],
-        'amount'=>['required','numeric'],
-        'date'=>['required','dateFormat:Y-m-d']
-    ]);
+    public function validateTransaction(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'description' => ['required', 'lengthMax:255'],
+            'amount' => ['required', 'numeric'],
+            'date' => ['required', 'dateFormat:Y-m-d']
+        ]);
     }
+    public function validateBudget(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'title' => ['required', 'lengthMax:255'],
+            'total_amount' => ['required', 'numeric'],
+            'start_date' => ['required', 'dateFormat:Y-m-d'],
+            'end_date' => ['required', 'dateFormat:Y-m-d']
+        ]);
+    }
+
 }
