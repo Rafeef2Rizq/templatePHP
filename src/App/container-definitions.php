@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 use App\Config\Paths;
+use App\Services\BudgetsService;
+use App\Services\ReceiptService;
+use App\Services\TransactionService;
 use App\Services\UserServices;
 use App\Services\ValidatorServices;
 use Framework\Container;
@@ -18,4 +21,19 @@ return [
 
         return new UserServices($db);
     },
+    TransactionService::class => function (Container $container) {
+        $db = $container->get(Database::class);
+        return new TransactionService($db);
+
+    },
+    BudgetsService::class => function (Container $container) {
+        $db = $container->get(Database::class);
+        return new BudgetsService($db);
+
+    },
+
+    ReceiptService::class => function (Container $container) {
+        $db = $container->get(Database::class);
+        return new ReceiptService($db);
+    }
 ];

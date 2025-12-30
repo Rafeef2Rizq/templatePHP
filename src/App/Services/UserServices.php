@@ -9,14 +9,16 @@ use Framework\Exceptions\ValidationException;
 
 class UserServices
 {
-    public function __construct(private Database $db) {}
-    public function     isEmailTaken(string $email)
+    public function __construct(private Database $db)
     {
-        $emailCount =  $this->db->query("SELECT COUNT(*) FROM users WHERE email =:email", [
+    }
+    public function isEmailTaken(string $email)
+    {
+        $emailCount = $this->db->query("SELECT COUNT(*) FROM users WHERE email =:email", [
             'email' => $email
         ])->count();
         if ($emailCount > 0) {
-            throw new  ValidationException(['email' => 'Email taken']);
+            throw new ValidationException(['email' => 'Email taken']);
         }
     }
     public function create(array $formData)
@@ -47,7 +49,18 @@ class UserServices
     }
     public function logout()
     {
-        unset($_SESSION['user']);
-        session_regenerate_id();
+        $params = session_get_cookie_params();
+        // unset($_SESSION['user']);
+        session_destroy();
+        // session_regenerate_id();
+        setcookie(
+            'PHPSESSID',
+            '',
+            time() - 3600,
+            $params['path'],
+            $params['domain'],
+            $params['secure'],
+            $params['httponly']
+        );
     }
 }

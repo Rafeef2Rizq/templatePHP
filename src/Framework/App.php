@@ -45,4 +45,13 @@ class App
    {
       $this->router->addRouteMiddleware($middlewae);
    }
+   public function delete(string $path, array $controller)
+   {
+      $this->router->add('DELETE', $path, $controller);
+      return $this;
+   }
+   public function setErrorHandler(array $controller)
+   {
+      $this->router->setErrorHandler($controller);
+   }
 }

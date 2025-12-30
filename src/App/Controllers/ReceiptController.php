@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controllers;
+
+use App\Services\ReceiptService;
+use Framework\TemplateEngine;
+use App\Services\{TransactionService};
+
+class ReceiptController
+{
+    public function __construct(
+        private TemplateEngine $view,
+        private TransactionService $transactionService,
+        private ReceiptService $receiptService
+    ) {
+    }
+
+    public function uploadView(array $params)
+    {
+        $transaction = $this->transactionService->getUserTransaction($params['transaction']);
+
+        if (!$transaction) {
+            redirectTo("/transactions");
+        }
+
+        echo $this->view->render("receipts/create.php");
+    }
+
+    public function upload(array $params)
+    {
+        $transaction = $this->transactionService->getUserTransaction($params['transaction']);
+
+        if (!$transaction) {
+            redirectTo("/transactions");
+        }
+        $receiptFile = $_FILES['receipt'] ?? null;
+        $this->receiptService->validateFile($receiptFile);
+        $this->receiptService->upload($receiptFile, $transaction['id']);
+        redirectTo("/transactions");
+
+    }
+    public function download(array $params)
+    {
+        $transaction = $this->transactionService->getUserTransaction($params['transaction']);
+        if (empty($transaction)) {
+            redirectTo('/transactions');
+        }
+        $receipt = $this->receiptService->getReceipt($params['receipt']);
+        if (empty($receipt)) {
+            redirectTo('/transactions');
+        }
+        if ($receipt['transaction_id'] !== $transaction['id']) {
+            redirectTo('/transactions');
+        }
+        $this->receiptService->read($receipt);
+    }
+    public function delete(array $params)
+    {
+        $transaction = $this->transactionService->getUserTransaction($params['transaction']);
+        if (empty($transaction)) {
+            redirectTo('/transactions');
+        }
+        $receipt = $this->receiptService->getReceipt($params['receipt']);
+        if (empty($receipt)) {
+            redirectTo('/transactions');
+        }
+        if ($receipt['transaction_id'] !== $transaction['id']) {
+            redirectTo('/transactions');
+        }
+        $this->receiptService->delete($receipt);
+    }
+}
