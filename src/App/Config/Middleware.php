@@ -9,6 +9,7 @@ use Framework\App;
 
 function registerMiddleware(App $app)
 {
+
     $app->addMiddleware(CsrfTokenMiddleware::class);
     $app->addMiddleware(CsrfTokenMiddleware::class);
     $app->addMiddleware(TemplateDataMiddleware::class);

@@ -25,7 +25,7 @@ class Database
             $this->conn = new PDO("$driver:host=$host;port=$port;dbname=$dbname", $username, $password, [
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // إعدادات إضافية للتعامل مع الأخطاء
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             die("Unable to connect to database: " . $e->getMessage());
         }

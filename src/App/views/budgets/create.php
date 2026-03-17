@@ -15,25 +15,8 @@
 
     <section class="bg-white rounded-[2rem] card-shadow border border-slate-100 overflow-hidden">
         <div class="p-8 sm:p-10">
-            <form method="POST" class="space-y-6">
+            <form action="/budget/create" method="POST" class="space-y-6">
                 <?php include $this->resolve("partials/_csrf.php"); ?>
-
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Title</label>
-                    <div class="relative group">
-                        <i
-                            class="fas fa-pen-nib absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-indigo-500 transition-colors"></i>
-                        <input value="<?php echo e($oldForm['title'] ?? ''); ?>" name="title" type="text"
-                            class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-700 font-medium" />
-                    </div>
-                    <?php if (array_key_exists('title', $errors)): ?>
-                        <div
-                            class="flex items-center gap-2 mt-2 text-red-500 text-[11px] font-bold bg-red-50 p-3 rounded-xl">
-                            <i class="fas fa-circle-exclamation"></i>
-                            <?php echo e($errors['title'][0]); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
@@ -42,19 +25,40 @@
                         <div class="relative group">
                             <i
                                 class="fas fa-dollar-sign absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-indigo-500 transition-colors"></i>
-                            <input value="<?php echo e($oldForm['total_amount'] ?? ''); ?>" name="total_amount"
+                            <input value="<?php echo e($oldForm['limit_amount'] ?? ''); ?>" name="limit_amount"
                                 type="number" step="0.01"
                                 class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-700 font-bold" />
                         </div>
-                        <?php if (array_key_exists('total_amount', $errors)): ?>
+                        <?php if (array_key_exists('limit_amount', $errors)): ?>
                             <div
                                 class="flex items-center gap-2 mt-2 text-red-500 text-[11px] font-bold bg-red-50 p-3 rounded-xl">
                                 <i class="fas fa-circle-exclamation"></i>
-                                <?php echo e($errors['total_amount'][0]); ?>
+                                <?php echo e($errors['limit_amount'][0]); ?>
                             </div>
                         <?php endif; ?>
                     </div>
-
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Category</label>
+                        <div class="relative">
+                            <i class="fas fa-tags absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <select name="category_id"
+                                class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-700 font-medium appearance-none">
+                                <option value="">Select a category</option>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?= e($category['id']) ?>" <?= ($oldForm['category_id'] ?? '') == $category['id'] ? 'selected' : '' ?>>
+                                        <?= e($category['name']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <?php if (array_key_exists('category_id', $errors)): ?>
+                            <div
+                                class="flex items-center gap-2 mt-2 ml-1 text-red-500 text-xs font-bold bg-red-50 p-2 rounded-lg">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <?php echo e($errors['category_id'][0]); ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Start
                             Date</label>
@@ -62,6 +66,7 @@
                             <i
                                 class="fas fa-calendar-alt absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-indigo-500 transition-colors"></i>
                             <input value="<?php echo e($oldForm['start_date'] ?? ''); ?>" name="start_date" type="date"
+                                id="start_date"
                                 class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-700" />
                         </div>
                         <?php if (array_key_exists('start_date', $errors)): ?>
@@ -79,6 +84,7 @@
                         <i
                             class="fas fa-calendar-alt absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-indigo-500 transition-colors"></i>
                         <input value="<?php echo e($oldForm['end_date'] ?? ''); ?>" name="end_date" type="date"
+                            id="end_date"
                             class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-700" />
                     </div>
                     <?php if (array_key_exists('end_date', $errors)): ?>
@@ -112,5 +118,14 @@
         </p>
     </div>
 </main>
+<script>
+    const startDate = document.getElementById('start_date');
+    const endDate = document.getElementById('end_date');
 
+    startDate.addEventListener('change', () => {
+
+        endDate.min = startDate.value;
+
+    });
+</script>
 <?php include $this->resolve("partials/_footer.php"); ?>

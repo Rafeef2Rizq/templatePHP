@@ -29,7 +29,7 @@
                         <div
                             class="flex items-center gap-2 mt-2 text-red-500 text-xs font-bold bg-red-50 p-3 rounded-xl border border-red-100">
                             <i class="fas fa-circle-exclamation"></i>
-                            <?php echo e($errors['email'][0] ?? $errors['email']) ?>
+                            <?php echo e($errors['email'] ?? $errors['email']) ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -50,7 +50,7 @@
                         <div
                             class="flex items-center gap-2 mt-2 text-red-500 text-xs font-bold bg-red-50 p-3 rounded-xl border border-red-100">
                             <i class="fas fa-circle-exclamation"></i>
-                            <?php echo e($errors['password'][0] ?? $errors['password']) ?>
+                            <?php echo e($errors['password'] ?? $errors['password']) ?>
                         </div>
                     <?php endif; ?>
                 </div>

@@ -41,6 +41,8 @@
                 ?>
                 <a href="/"
                     class="text-sm font-semibold transition <?= $current_page == '/' ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600' ?>">Dashboard</a>
+                <a href="/category"
+                    class="text-sm font-semibold transition <?= $current_page == '/category' ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600' ?>">Categories</a>
 
                 <a href="/budget"
                     class="text-sm font-semibold transition <?= str_contains($current_page, 'budget') ? 'text-indigo-600 border-b-2 border-indigo-600 pb-1' : 'text-slate-500 hover:text-indigo-600' ?>">Budgets</a>

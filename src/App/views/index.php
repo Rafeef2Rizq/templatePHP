@@ -1,197 +1,241 @@
 <?php include $this->resolve("partials/_header.php"); ?>
 
-<main class="container mx-auto mt-8 mb-10 px-6 max-w-7xl space-y-10">
+<main class="container mx-auto mt-8 mb-10 px-6 max-w-7xl space-y-8">
 
     <header class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
         <div>
-            <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Expense Tracker</h1>
-            <p class="text-slate-500 mt-1 font-medium">Track your spending and manage budgets</p>
+            <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Financial Overview</h1>
+            <p class="text-slate-500 mt-1 font-medium">Hello! Here's what's happening with your money today.</p>
         </div>
         <div class="flex items-center gap-4 w-full lg:w-auto">
-            <div class="relative flex-grow md:w-80">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                <input type="text"
-                    class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none text-sm transition-all shadow-sm placeholder:text-slate-400"
-                    placeholder="Search transactions...">
-            </div>
             <a href="/transaction"
-                class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 transition shadow-xl shadow-indigo-200 flex items-center gap-2 whitespace-nowrap active:scale-95">
-                <i class="fas fa-plus text-xs"></i> Add Transaction
+                class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 transition shadow-xl shadow-indigo-200 flex items-center gap-2 active:scale-95">
+                <i class="fas fa-plus text-xs"></i> New Transaction
             </a>
         </div>
     </header>
 
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div
-            class="bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 hover:scale-[1.02] transition-transform duration-300">
-            <div class="flex items-center justify-between mb-6">
-                <p class="text-xs font-black text-slate-400 uppercase tracking-[0.15em]">Total Spent</p>
-                <div class="w-12 h-12 rounded-2xl bg-red-50 flex items-center justify-center text-red-600 shadow-inner">
-                    <i class="fas fa-money-bill-wave text-lg"></i>
+    <!-- Stats Cards -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-gradient-to-br from-red-500 to-red-600 p-6 rounded-[2rem] shadow-xl shadow-red-100 text-white">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+                    <i class="fas fa-arrow-down text-lg"></i>
                 </div>
+                <p class="text-xs font-black text-red-100 uppercase tracking-widest">Total Expenses</p>
             </div>
-            <p class="text-4xl font-black text-slate-900 tracking-tight">$430.00</p>
-            <div class="mt-6">
-                <div class="flex items-center justify-between text-xs mb-3 font-bold">
-                    <span class="text-slate-400">This month</span>
-                    <span class="text-red-600 bg-red-50 px-2 py-1 rounded-lg">+12%</span>
-                </div>
-                <div class="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.4)]" style="width: 65%">
-                    </div>
-                </div>
-            </div>
+            <p class="text-4xl font-black">$
+                <?= number_format($amountTotal ?? 0, 2) ?>
+            </p>
+            <p class="text-xs text-red-100 font-semibold mt-3 opacity-80">All time spending</p>
         </div>
 
         <div
-            class="bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 hover:scale-[1.02] transition-transform duration-300">
-            <div class="flex items-center justify-between mb-6">
-                <p class="text-xs font-black text-slate-400 uppercase tracking-[0.15em]">Monthly Budget</p>
-                <div
-                    class="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-inner">
+            class="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-[2rem] shadow-xl shadow-green-100 text-white">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+                    <i class="fas fa-arrow-up text-lg"></i>
+                </div>
+                <p class="text-xs font-black text-green-100 uppercase tracking-widest">Total Income</p>
+            </div>
+            <p class="text-4xl font-black">$
+                <?= number_format($totalIncome ?? 0, 2) ?>
+            </p>
+            <p class="text-xs text-green-100 font-semibold mt-3 opacity-80">All time earnings</p>
+        </div>
+
+        <div
+            class="bg-gradient-to-br from-indigo-600 to-indigo-700 p-6 rounded-[2rem] shadow-xl shadow-indigo-200 text-white">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
                     <i class="fas fa-wallet text-lg"></i>
                 </div>
+                <p class="text-xs font-black text-indigo-100 uppercase tracking-widest">Balance</p>
             </div>
-            <p class="text-4xl font-black text-slate-900 tracking-tight">$800.00</p>
-            <div class="mt-6">
-                <div class="flex items-center justify-between text-xs mb-3 font-bold">
-                    <span class="text-slate-400">Monthly limit</span>
-                    <span class="text-indigo-600">53.7% used</span>
-                </div>
-                <div class="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-indigo-600 rounded-full shadow-[0_0_8px_rgba(79,70,229,0.4)]"
-                        style="width: 53.7%"></div>
-                </div>
-            </div>
-        </div>
-
-        <div
-            class="bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 hover:scale-[1.02] transition-transform duration-300">
-            <div class="flex items-center justify-between mb-6">
-                <p class="text-xs font-black text-slate-400 uppercase tracking-[0.15em]">Remaining</p>
-                <div
-                    class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
-                    <i class="fas fa-coins text-lg"></i>
-                </div>
-            </div>
-            <p class="text-4xl font-black text-emerald-600 tracking-tight">$370.00</p>
-            <div class="mt-6">
-                <div class="flex items-center justify-between text-xs mb-3 font-bold">
-                    <span class="text-slate-400">Available</span>
-                    <span class="text-emerald-600">46.3% left</span>
-                </div>
-                <div class="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.4)]"
-                        style="width: 46.3%"></div>
-                </div>
-            </div>
+            <p class="text-4xl font-black">$
+                <?= number_format(($totalIncome ?? 0) - ($amountTotal ?? 0), 2) ?>
+            </p>
+            <p class="text-xs text-indigo-100 font-semibold mt-3 opacity-80">Current balance</p>
         </div>
     </section>
 
+    <!-- Charts & Budgets -->
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
-            <div class="flex items-center justify-between mb-10">
+        <!-- Spending Chart -->
+        <div class="lg:col-span-2 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+            <div class="flex items-center justify-between mb-8">
                 <h3 class="text-xl font-black text-slate-900">Spending Overview</h3>
-                <div class="flex bg-slate-100 p-1.5 rounded-xl">
-                    <button class="px-4 py-2 text-xs font-bold bg-white text-indigo-600 rounded-lg shadow-sm">This
-                        Month</button>
-                    <button class="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-700 transition">Last
-                        Month</button>
+                <div class="flex gap-2">
+                    <span class="px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-bold">This
+                        Month</span>
                 </div>
             </div>
-
-            <div class="h-64 flex items-end justify-between gap-4 px-2">
+            <div class="h-64 flex items-end justify-between gap-3">
                 <?php
                 $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                $heights = [180, 140, 220, 160, 120, 190, 150];
-                foreach ($days as $index => $day):
-                    ?>
-                    <div class="flex flex-col items-center flex-1 group">
-                        <div class="w-full max-w-[45px] bg-slate-50 group-hover:bg-slate-100 rounded-2xl transition-all relative overflow-hidden"
-                            style="height: 240px">
-                            <div class="absolute bottom-0 w-full bg-indigo-600 rounded-2xl transition-all duration-700 group-hover:bg-indigo-500 group-hover:shadow-[0_0_15px_rgba(79,70,229,0.3)]"
+                $heights = [120, 90, 200, 140, 80, 170, 130];
+                foreach ($days as $index => $day): ?>
+                    <div class="flex flex-col items-center flex-1 group cursor-pointer">
+                        <div
+                            class="w-full max-w-[40px] bg-gradient-to-t from-slate-100 to-slate-50 rounded-2xl relative h-48 overflow-hidden border border-slate-100">
+                            <div class="absolute bottom-0 w-full bg-gradient-to-t from-indigo-600 to-indigo-400 transition-all duration-500 hover:from-indigo-500 hover:to-indigo-300"
                                 style="height: <?= $heights[$index] ?>px"></div>
                         </div>
-                        <span
-                            class="text-[10px] font-black text-slate-400 mt-4 uppercase tracking-[0.2em]"><?= $day ?></span>
+                        <span class="text-xs font-bold text-slate-400 mt-3 uppercase">
+                            <?= $day ?>
+                        </span>
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
 
-        <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
-            <div class="flex items-center justify-between mb-10">
-                <h3 class="text-xl font-black text-slate-900">Budgets</h3>
-                <a href="/budget" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">View
-                    All</a>
+        <!-- Active Budgets -->
+        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-xl font-black text-slate-900">Active Budgets</h3>
+                <a href="/budget" class="text-xs font-bold text-indigo-600 hover:text-indigo-700">View All</a>
             </div>
-            <div class="space-y-8">
-                <div class="group">
-                    <div class="flex justify-between mb-3">
-                        <span class="text-sm font-bold text-slate-700">Food</span>
-                        <span class="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-md">$320 /
-                            $500</span>
+            <div class="space-y-6">
+                <?php if (!empty($activeBudgets)): ?>
+                    <?php foreach (array_slice($activeBudgets, 0, 3) as $budget): ?>
+                        <?php
+                        $spent = $budget['spent'] ?? 0;
+                        $limit = $budget['limit_amount'];
+                        $percentage = $limit > 0 ? ($spent / $limit) * 100 : 0;
+                        $color = $percentage > 80 ? 'red' : ($percentage > 60 ? 'orange' : 'green');
+                        ?>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="font-bold text-slate-700">
+                                    <?= e($budget['category_name']) ?>
+                                </span>
+                                <span class="font-black text-slate-900">$
+                                    <?= number_format($spent, 0) ?>/$
+                                    <?= number_format($limit, 0) ?>
+                                </span>
+                            </div>
+                            <div class="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-<?= $color ?>-500 transition-all"
+                                    style="width: <?= min($percentage, 100) ?>%"></div>
+                            </div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase">
+                                <?= number_format($percentage, 0) ?>% used
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="text-center py-8">
+                        <i class="fas fa-inbox text-4xl text-slate-200 mb-3"></i>
+                        <p class="text-sm text-slate-400 font-medium">No active budgets</p>
                     </div>
-                    <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <div class="h-full bg-orange-500 rounded-full" style="width: 64%"></div>
-                    </div>
-                    <div class="flex justify-between mt-3 text-[10px] font-bold">
-                        <span class="text-slate-400 uppercase tracking-wider">64% spent</span>
-                        <span class="text-emerald-600">$180 left</span>
-                    </div>
-                </div>
-
-                <div class="group">
-                    <div class="flex justify-between mb-3">
-                        <span class="text-sm font-bold text-slate-700">Transport</span>
-                        <span class="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-md">$80 /
-                            $200</span>
-                    </div>
-                    <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <div class="h-full bg-blue-50 rounded-full" style="width: 40%"></div>
-                    </div>
-                </div>
+                <?php endif; ?>
 
                 <a href="/budget/create"
-                    class="w-full py-5 border-2 border-dashed border-slate-200 rounded-[1.5rem] text-slate-400 text-sm font-black hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50/30 transition-all mt-6 group flex items-center justify-center">
-                    <i class="fas fa-plus mr-2 text-xs group-hover:scale-125 transition-transform"></i>
-                    New Budget
+                    class="flex items-center justify-center w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 text-xs font-bold hover:bg-slate-50 hover:border-indigo-300 hover:text-indigo-600 transition-all">
+                    <i class="fas fa-plus text-xs mr-2"></i> Add New Budget
                 </a>
             </div>
         </div>
     </section>
 
-    <section class="max-w-4xl">
-        <div
-            class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-            <div class="flex items-center justify-between mb-10">
-                <h3 class="text-xl font-black text-slate-900">Recent Transactions</h3>
-                <a href="/transactions" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">View
-                    History</a>
+    <!-- Categories & Recent Transactions -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Top Categories -->
+        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-xl font-black text-slate-900">Top Categories</h3>
+                <a href="/category" class="text-xs font-bold text-indigo-600 hover:text-indigo-700">Manage</a>
             </div>
-            <div class="space-y-3">
-                <?php
+            <div class="space-y-5">
+                <?php if (!empty($topCategories)): ?>
+                    <?php foreach ($topCategories as $cat): ?>
+                        <div
+                            class="flex items-center justify-between group hover:bg-slate-50 -mx-3 px-3 py-2 rounded-xl transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-100">
+                                    <i class="fas fa-tag text-sm"></i>
+                                </div>
+                                <div>
+                                    <span class="text-sm font-bold text-slate-800 block">
+                                        <?= e($cat['name']) ?>
+                                    </span>
+                                    <span class="text-[10px] font-semibold text-slate-400 uppercase">
+                                        <?= $cat['count'] ?? 0 ?> transactions
+                                    </span>
+                                </div>
+                            </div>
+                            <span class="text-base font-black text-slate-900">
+                                $
+                                <?= number_format($cat['total'], 2) ?>
+                            </span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="text-center py-8">
+                        <i class="fas fa-tags text-4xl text-slate-200 mb-3"></i>
+                        <p class="text-sm text-slate-400 font-medium">No categories yet</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
 
-                foreach ($transactions as $transation):
-                    ?>
-                    <div
-                        class="flex items-center justify-between p-5 hover:bg-slate-50 rounded-[1.5rem] transition-all group border border-transparent hover:border-slate-100 cursor-pointer">
-                        <div class="flex items-center gap-5">
-                            <div>
-                                <p class="text-sm font-black text-slate-800"><?= $transation['description'] ?></p>
-                                <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-0.5">
-                                    • <?php echo $transation['date'] ?>
-                                </p>
+        <!-- Recent Transactions -->
+        <div class="lg:col-span-2 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-xl font-black text-slate-900">Recent Transactions</h3>
+                <a href="/transactions" class="text-xs font-bold text-indigo-600 hover:text-indigo-700">See All</a>
+            </div>
+
+            <div class="divide-y divide-slate-50">
+                <?php if (!empty($transactions)): ?>
+                    <?php foreach ($transactions as $transaction): ?>
+                        <div
+                            class="flex items-center justify-between py-4 group hover:bg-slate-50 -mx-4 px-4 rounded-xl transition-colors cursor-pointer">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl <?= $transaction['transaction_type'] === 'income' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' ?> flex items-center justify-center shadow-sm">
+                                    <i
+                                        class="fas fa-<?= $transaction['transaction_type'] === 'income' ? 'arrow-up' : 'arrow-down' ?> text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-black text-slate-800">
+                                        <?= e($transaction['description']) ?>
+                                    </p>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span
+                                            class="inline-flex items-center gap-1 px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded text-[10px] font-bold uppercase">
+                                            <i class="fas fa-tag text-[8px]"></i>
+                                            <?= e($transaction['category_name'] ?? 'General') ?>
+                                        </span>
+                                        <span class="text-[10px] font-semibold text-slate-400">
+                                            <?= e($transaction['formatted_date']) ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span
+                                    class="font-black text-lg <?= $transaction['transaction_type'] === 'income' ? 'text-green-600' : 'text-red-600' ?>">
+                                    <?= $transaction['transaction_type'] === 'income' ? '+' : '-' ?>$
+                                    <?= number_format($transaction['amount'], 2) ?>
+                                </span>
+                                <div class="text-[10px] font-bold text-slate-400 uppercase mt-0.5">
+                                    <?= ucfirst($transaction['transaction_type']) ?>
+                                </div>
                             </div>
                         </div>
-                        <span class="font-black text-red-600 text-sm tracking-tight"><?= $transation['amount'] ?></span>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="text-center py-12">
+                        <i class="fas fa-receipt text-5xl text-slate-200 mb-4"></i>
+                        <p class="text-sm text-slate-400 font-medium mb-4">No transactions yet</p>
+                        <a href="/transaction"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold hover:bg-indigo-700 transition">
+                            <i class="fas fa-plus text-xs"></i> Add First Transaction
+                        </a>
                     </div>
-                <?php endforeach; ?>
-
-                <a href="/transactions"
-                    class="w-full py-5 bg-slate-900 text-white text-sm font-black rounded-2xl hover:bg-indigo-600 transition-all mt-6 shadow-lg shadow-slate-200 flex items-center justify-center">
-                    See All Transactions
-                </a>
+                <?php endif; ?>
             </div>
         </div>
     </section>

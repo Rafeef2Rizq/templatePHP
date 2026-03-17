@@ -13,7 +13,7 @@ class TransactionController extends Controller
     public function __construct(
         private TemplateEngine $view,
         private ValidatorServices $validatorServices,
-        private TransactionService $transactionService
+        private TransactionService $transactionService,
     ) {
     }
 
@@ -33,7 +33,12 @@ class TransactionController extends Controller
     }
     public function createView()
     {
-        echo $this->view->render("transactions/create.php");
+        $page = (int) ($_GET['p'] ?? 1);
+        $length = 3;
+
+        $categories = $this->transactionService->getCategories();
+
+        echo $this->view->render("transactions/create.php", ['categories' => $categories]);
     }
     public function create()
     {
@@ -44,12 +49,17 @@ class TransactionController extends Controller
     public function editView(array $params)
     {
         $transaction = $this->transactionService->getUserTransaction($params['transaction']);
+        $page = (int) ($_GET['p'] ?? 1);
+        $length = 3;
+        $categories = $this->transactionService->getCategories();
+
         if (!$transaction) {
             redirectTo('/transactions');
         }
-        echo $this->view->render('transactions/edit.php', ['transaction' => $transaction]);
+        echo $this->view->render('transactions/edit.php', ['transaction' => $transaction, 'categories' => $categories]);
 
     }
+
     public function edit(array $params)
     {
         $transaction = $this->transactionService->getUserTransaction($params['transaction']);

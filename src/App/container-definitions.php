@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Config\Paths;
 use App\Services\BudgetsService;
+use App\Services\CategoryService;
 use App\Services\ReceiptService;
 use App\Services\TransactionService;
 use App\Services\UserServices;
@@ -20,6 +21,10 @@ return [
         $db = $container->get(Database::class);
 
         return new UserServices($db);
+    },
+    CategoryService::class => function (Container $container) {
+        $db = $container->get(Database::class);
+        return new CategoryService($db);
     },
     TransactionService::class => function (Container $container) {
         $db = $container->get(Database::class);

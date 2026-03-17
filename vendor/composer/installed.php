@@ -3,7 +3,7 @@
         'name' => 'rafeefrezeq/phpiggy',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'ffe6f15cb8bc459820511c1e480e52b681e75c8a',
+        'reference' => '70f2a6e717ed9bad8bee1f814297f8080a99aef5',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'rafeefrezeq/phpiggy' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'ffe6f15cb8bc459820511c1e480e52b681e75c8a',
+            'reference' => '70f2a6e717ed9bad8bee1f814297f8080a99aef5',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

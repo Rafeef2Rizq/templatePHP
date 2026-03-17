@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Framework\Rules\{DateFormatRule, RequiredRule, EmailRule, InRule, LengthMaxRule, MatchRule, MinRule, NumericRule, URLRule};
+use Framework\Rules\{BeforeAfterDate, DateFormatRule, RequiredRule, EmailRule, InRule, LengthMaxRule, MatchRule, MinRule, NumericRule, URLRule};
 use Framework\Validator;
 use LengthException;
 
@@ -24,6 +24,7 @@ class ValidatorServices
         $this->validator->add('lengthMax', new LengthMaxRule());
         $this->validator->add('numeric', new NumericRule());
         $this->validator->add('dateFormat', new DateFormatRule());
+        $this->validator->add('beforeAfterDate', new BeforeAfterDate());
     }
     public function validateRegister(array $formData)
     {
@@ -49,17 +50,26 @@ class ValidatorServices
         $this->validator->validate($formData, [
             'description' => ['required', 'lengthMax:255'],
             'amount' => ['required', 'numeric'],
-            'date' => ['required', 'dateFormat:Y-m-d']
+            'date' => ['required', 'dateFormat:Y-m-d'],
+            'category_id' => ['required'],
+
         ]);
     }
     public function validateBudget(array $formData)
     {
         $this->validator->validate($formData, [
-            'title' => ['required', 'lengthMax:255'],
-            'total_amount' => ['required', 'numeric'],
+            'limit_amount' => ['required', 'numeric'],
+            'category_id' => ['required', 'numeric'],
             'start_date' => ['required', 'dateFormat:Y-m-d'],
-            'end_date' => ['required', 'dateFormat:Y-m-d']
+            'end_date' => ['required', 'dateFormat:Y-m-d', 'beforeAfterDate:start_date'],
+
         ]);
     }
+    public function validateCategory(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'name' => ['required', 'lengthMax:100'],
 
+        ]);
+    }
 }
