@@ -21,6 +21,11 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
     </style>
+    <link rel="icon" href="data:image/svg+xml,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+  <rect width='100' height='100' rx='15' fill='%2328a745'/>
+  <text x='50' y='72' font-size='60' font-family='Arial, sans-serif' text-anchor='middle' fill='white'>$</text>
+</svg>">
 </head>
 
 <body class="bg-slate-50 font-['Outfit'] text-slate-900">

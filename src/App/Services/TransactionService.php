@@ -124,6 +124,7 @@ class TransactionService
     }
 
 
+
     public function update(array $formData, int $id)
     {
         $formattedDate = "{$formData['date']} 00:00:00";
@@ -186,5 +187,18 @@ class TransactionService
             "SELECT * FROM categories WHERE user_id = :user_id ORDER BY name ASC",
             ['user_id' => $_SESSION['user']]
         )->findAll();
+    }
+    public function getTopCategories(): array
+    {
+        return $this->db->query("
+        SELECT categories.name, COUNT(transactions.id) AS count, SUM(transactions.amount) AS total
+        FROM transactions
+        JOIN categories ON transactions.category_id = categories.id
+        GROUP BY categories.name
+        ORDER BY total DESC
+        LIMIT 5
+    ")->findAll();
+
+
     }
 }

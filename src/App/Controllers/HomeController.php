@@ -29,12 +29,15 @@ class HomeController extends Controller
         $amountTotal = $this->transactionService->getTotalAmount();
         $totalIncome = $this->transactionService->getTotalIncome();
         $activeBudgets = $this->budgetsService->getActiveBudgets();
+        $topCategories = $this->transactionService->getTopCategories();
+
 
         echo $this->view->render("index.php", array_merge($pagination, [
             'transactions' => $transactions,
             'amountTotal' => $amountTotal,
             'activeBudgets' => $activeBudgets,
             'totalIncome' => $totalIncome,
+            'topCategories' => $topCategories
 
         ], $pagination));
 
